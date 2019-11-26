@@ -2,6 +2,8 @@ import React from 'react';
 import {db} from './config/firebase';
 import {getTodos} from './store/todos/todosUtil';
 
+import FormInput from './components/formInput/FormInput';
+
 class App extends React.Component
 {
   constructor(props){
@@ -20,7 +22,7 @@ class App extends React.Component
       querySnapshot.forEach((todo) => {
         this.setState((prevState) =>{
           return {
-            todos : [todo.data(),...prevState.todos]
+            todos : [{name:todo.data().name, id:todo.id},...prevState.todos]
           }
         })
       })
@@ -41,6 +43,7 @@ class App extends React.Component
     return (
       <div>
         <h1>Hello World</h1>
+        <FormInput/>
         {
           !this.state.pending ? 
           (
@@ -49,7 +52,7 @@ class App extends React.Component
               <ul>
                 {
                   this.state.todos.map((todo)=>{
-                    return <li>{todo.name}</li>
+                    return <li key={todo.id}>{todo.name}</li>
                   })
                 }
               </ul>
